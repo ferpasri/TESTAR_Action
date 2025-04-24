@@ -13,7 +13,7 @@ This GitHub Action runs the [TESTAR scriptless tool](https://github.com/TESTARto
 | Input | Description | Default |
 |-------|-------------|---------|
 | `version` | TESTAR version to download (e.g. `v2.6.37`) | `v2.6.37` |
-| `application_name` | Name of the SUT being tested by TESTAR (for report identification) | **Required** |
+| `application_name` | Name of the SUT being tested by TESTAR (for report identification) | `SUT_webdriver_generic` |
 | `sut` | Web URL of the SUT to be tested by TESTAR | **Required** |
 | `sequences` | Number of test sequences | `5` |
 | `sequence_length` | Length of each sequence | `10` |

@@ -59,13 +59,8 @@ runs:
           SequenceLength=${{ inputs.sequence_length }} \
           SuspiciousTitles="${{ inputs.suspicious_titles }}"
 
-    - name: Zip TESTAR output results
-      shell: bash
-      run: |
-        zip -r testar-output-results.zip testar_release/testar/bin/output
-
     - name: Upload TESTAR output results as artifact
       uses: actions/upload-artifact@v4
       with:
         name: testar-output-results
-        path: testar-output-results.zip
+        path: testar_release/testar/bin/output
