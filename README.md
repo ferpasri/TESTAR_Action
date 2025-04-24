@@ -1,6 +1,6 @@
 # TESTAR GitHub Action
 
-This GitHub Action runs the [TESTAR](https://github.com/TESTARtool/TESTAR_dev) scriptless tool for testing Web applications.
+This GitHub Action runs the [TESTAR scriptless tool](https://github.com/TESTARtool/TESTAR_dev) for testing Web applications.
 
 ## ✅ Features
 
@@ -13,10 +13,11 @@ This GitHub Action runs the [TESTAR](https://github.com/TESTARtool/TESTAR_dev) s
 | Input | Description | Default |
 |-------|-------------|---------|
 | `version` | TESTAR version to download (e.g. `v2.6.37`) | `v2.6.37` |
+| `application_name` | Name of the SUT being tested by TESTAR (for report identification) | **Required** |
 | `sut` | Web URL of the SUT to be tested by TESTAR | **Required** |
 | `sequences` | Number of test sequences | `5` |
 | `sequence_length` | Length of each sequence | `10` |
-| `suspicious_titles` | Regex for suspicious titles | `.[eE]rror.|.[eE]xcep[ct]ion.` |
+| `suspicious_titles` | Regex for suspicious titles | `.[eE]rror.&#124;.[eE]xcep[ct]ion.` |
 
 ## 📦 Example Usage (Web SUT)
 
@@ -33,8 +34,9 @@ This GitHub Action runs the [TESTAR](https://github.com/TESTARtool/TESTAR_dev) s
 ```yaml
 - uses: ferpasri/testar-action@v1
   with:
+    application_name: 'parabank'
     sut: 'https://para.testar.org/parabank'
-	sequences: '3'
-	sequence_length: '5'
-	suspicious_titles: '.[eE]rror.|.[eE]xcep[ct]ion.|.[iI]nvalid.'
+    sequences: '3'
+    sequence_length: '5'
+    suspicious_titles: '.[eE]rror.|.[eE]xcep[ct]ion.|.[iI]nvalid.'
 ```

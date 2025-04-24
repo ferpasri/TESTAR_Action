@@ -5,6 +5,10 @@ inputs:
     description: 'TESTAR version (e.g. v2.6.37)'
     required: false
     default: 'v2.6.37'
+  application_name:
+    description: 'Name of the SUT being tested by TESTAR (for report identification)'
+    required: false
+    default: 'SUT_webdriver_generic'
   sut:
     description: 'Web URL of the SUT to be tested by TESTAR'
     required: true
@@ -44,7 +48,10 @@ runs:
         xvfb-run ./testar \
           sse=webdriver_generic \
           ShowVisualSettingsDialogOnStartup=false \
+          FlashFeedback=false \
+          AlwaysCompile=true \
           Mode=Generate \
+          ApplicationName="${{ inputs.application_name }}" \
           SUTConnectorValue=" \"\"/usr/local/share/chromedriver-linux64/chromedriver\"\" \"\"${{ inputs.sut }}\"\" " \
           Sequences=${{ inputs.sequences }} \
           SequenceLength=${{ inputs.sequence_length }} \
