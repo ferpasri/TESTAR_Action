@@ -47,6 +47,8 @@ runs:
         cd testar_release/testar/bin
         xvfb-run ./testar \
           sse=webdriver_generic \
+          WebDomainsAllowed=null \
+          WebPathsAllowed=null \
           ShowVisualSettingsDialogOnStartup=false \
           FlashFeedback=false \
           AlwaysCompile=true \
@@ -60,8 +62,7 @@ runs:
     - name: Zip TESTAR output results
       shell: bash
       run: |
-        OUTPUT_RESULTS_DIR=$(ls -td testar_release/testar/bin/output/*/ | head -1)
-        zip -r testar-output-results.zip "$OUTPUT_RESULTS_DIR"
+        zip -r testar-output-results.zip testar_release/testar/bin/output
 
     - name: Upload TESTAR output results as artifact
       uses: actions/upload-artifact@v4
