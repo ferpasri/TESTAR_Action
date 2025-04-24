@@ -1,0 +1,21 @@
+name: Test TESTAR Action (webdriver_generic)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  testar-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run TESTAR Action (webdriver_generic)
+        uses: ./ # Local ferpasri/TESTAR_Action
+        with:
+          sut: 'https://para.testar.org/parabank'
+          sequences: '3'
+          sequence_length: '5'
+          suspicious_titles: '.[eE]rror.|.[eE]xcep[ct]ion.|.[iI]nvalid.'

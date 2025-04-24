@@ -1,0 +1,51 @@
+name: 'TESTAR Scriptless Testing'
+description: 'Runs TESTAR with configurable parameters for web applications'
+inputs:
+  version:
+    description: 'TESTAR version (e.g. v2.6.37)'
+    required: false
+    default: 'v2.6.37'
+  sut:
+    description: 'Web URL of the SUT to be tested by TESTAR'
+    required: true
+  sequences:
+    description: 'Number of sequences'
+    required: false
+    default: '5'
+  sequence_length:
+    description: 'Length of each sequence'
+    required: false
+    default: '10'
+  suspicious_titles:
+    description: 'Regex for suspicious titles'
+    required: false
+    default: '.[eE]rror.|.[eE]xcep[ct]ion.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install GUI dependencies
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 xdotool
+
+    - name: Download and unzip TESTAR
+      shell: bash
+      run: |
+        curl -L -o testar_release.zip https://github.com/TESTARtool/TESTAR_dev/releases/download/${{ inputs.version }}/testar_${{ inputs.version }}_java11.zip
+        unzip -q testar_release.zip -d testar_release
+        chmod +x testar_release/testar/bin/testar
+
+    - name: Run TESTAR
+      shell: bash
+      run: |
+        cd testar_release/testar/bin
+        xvfb-run ./testar \
+          sse=webdriver_generic \
+          ShowVisualSettingsDialogOnStartup=false \
+          Mode=Generate \
+          SUTConnectorValue=" \"\"/usr/local/share/chromedriver-linux64/chromedriver\"\" \"\"${{ inputs.sut }}\"\" " \
+          Sequences=${{ inputs.sequences }} \
+          SequenceLength=${{ inputs.sequence_length }} \
+          SuspiciousTitles="${{ inputs.suspicious_titles }}"
