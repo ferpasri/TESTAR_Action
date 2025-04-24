@@ -32,7 +32,7 @@ runs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 xdotool
+        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 xdotool zip
 
     - name: Download and unzip TESTAR
       shell: bash
@@ -56,3 +56,15 @@ runs:
           Sequences=${{ inputs.sequences }} \
           SequenceLength=${{ inputs.sequence_length }} \
           SuspiciousTitles="${{ inputs.suspicious_titles }}"
+
+    - name: Zip TESTAR output results
+      shell: bash
+      run: |
+        OUTPUT_RESULTS_DIR=$(ls -td testar_release/testar/bin/output/*/ | head -1)
+        zip -r testar-output-results.zip "$OUTPUT_RESULTS_DIR"
+
+    - name: Upload TESTAR output results as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: testar-output-results
+        path: testar-output-results.zip

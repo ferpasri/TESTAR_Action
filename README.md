@@ -17,7 +17,7 @@ This GitHub Action runs the [TESTAR scriptless tool](https://github.com/TESTARto
 | `sut` | Web URL of the SUT to be tested by TESTAR | **Required** |
 | `sequences` | Number of test sequences | `5` |
 | `sequence_length` | Length of each sequence | `10` |
-| `suspicious_titles` | Regex for suspicious titles | `.[eE]rror.&#124;.[eE]xcep[ct]ion.` |
+| `suspicious_titles` | Regex for suspicious titles | `.[eE]rror.\|.[eE]xcep[ct]ion.` |
 
 ## 📦 Example Usage (Web SUT)
 
