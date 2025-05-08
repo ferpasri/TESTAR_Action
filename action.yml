@@ -1,4 +1,4 @@
-name: 'TESTAR Scriptless Testing'
+name: 'TESTAR Scriptless Testing (Windows)'
 description: 'Runs TESTAR with configurable parameters for web applications'
 inputs:
   version:
@@ -28,35 +28,30 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install GUI dependencies
-      shell: bash
-      run: |
-        sudo apt-get update
-        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 xdotool zip
-
     - name: Download and unzip TESTAR
-      shell: bash
+      shell: pwsh
       run: |
-        curl -L -o testar_release.zip https://github.com/TESTARtool/TESTAR_dev/releases/download/${{ inputs.version }}/testar_${{ inputs.version }}_java11.zip
-        unzip -q testar_release.zip -d testar_release
-        chmod +x testar_release/testar/bin/testar
+        $url = "https://github.com/TESTARtool/TESTAR_dev/releases/download/${{ inputs.version }}/testar_${{ inputs.version }}_java11.zip"
+        Invoke-WebRequest -Uri $url -OutFile "testar_release.zip"
+        Expand-Archive -Path "testar_release.zip" -DestinationPath "testar_release"
 
     - name: Run TESTAR
-      shell: bash
+      shell: pwsh
       run: |
-        cd testar_release/testar/bin
-        xvfb-run ./testar \
-          sse=webdriver_generic \
-          WebDomainsAllowed=null \
-          WebPathsAllowed=null \
-          ShowVisualSettingsDialogOnStartup=false \
-          FlashFeedback=false \
-          AlwaysCompile=true \
-          Mode=Generate \
-          ApplicationName="${{ inputs.application_name }}" \
-          SUTConnectorValue=" \"\"/usr/local/share/chromedriver-linux64/chromedriver\"\" \"\"${{ inputs.sut }}\"\" " \
-          Sequences=${{ inputs.sequences }} \
-          SequenceLength=${{ inputs.sequence_length }} \
+        $testarPath = "testar_release\testar\bin"
+        Set-Location $testarPath
+        testar `
+          sse=webdriver_generic `
+          WebDomainsAllowed=null `
+          WebPathsAllowed=null `
+          ShowVisualSettingsDialogOnStartup=false `
+          FlashFeedback=false `
+          AlwaysCompile=true `
+          Mode=Generate `
+          ApplicationName="${{ inputs.application_name }}" `
+          SUTConnectorValue='" ""C:\\SeleniumWebDrivers\\ChromeDriver\\chromedriver.exe"" ""${{ inputs.sut }}"" "' `
+          Sequences=${{ inputs.sequences }} `
+          SequenceLength=${{ inputs.sequence_length }} `
           SuspiciousTitles="${{ inputs.suspicious_titles }}"
 
     - name: Upload TESTAR output results as artifact

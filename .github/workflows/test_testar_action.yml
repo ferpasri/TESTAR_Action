@@ -2,12 +2,12 @@ name: Test TESTAR Action (webdriver_generic)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ windows ]
   workflow_dispatch:
 
 jobs:
   testar-web:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
