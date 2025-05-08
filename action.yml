@@ -40,7 +40,7 @@ runs:
       run: |
         $testarPath = "testar_release\testar\bin"
         Set-Location $testarPath
-        testar `
+        .\testar.bat `
           sse=webdriver_generic `
           WebDomainsAllowed=null `
           WebPathsAllowed=null `
