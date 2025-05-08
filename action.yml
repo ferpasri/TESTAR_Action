@@ -48,11 +48,11 @@ runs:
           FlashFeedback=false `
           AlwaysCompile=true `
           Mode=Generate `
-          ApplicationName="${{ inputs.application_name }}" `
+          ApplicationName='"${{ inputs.application_name }}"' `
           SUTConnectorValue='" ""C:\\SeleniumWebDrivers\\ChromeDriver\\chromedriver.exe"" ""${{ inputs.sut }}"" "' `
           Sequences=${{ inputs.sequences }} `
           SequenceLength=${{ inputs.sequence_length }} `
-          SuspiciousTitles="${{ inputs.suspicious_titles }}"
+          SuspiciousTitles='"${{ inputs.suspicious_titles }}"'
 
     - name: Upload TESTAR output results as artifact
       uses: actions/upload-artifact@v4
